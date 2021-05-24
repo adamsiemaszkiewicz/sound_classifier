@@ -9,8 +9,6 @@ In my last yer's [eargasm music project](https://github.com/adamsiemaszkiewicz/e
 
 This particular project uses [ESC-50: Dataset for Environmental Sound Classification](https://github.com/karolpiczak/ESC-50) by [Karol Piczak](https://github.com/karolpiczak/)
 
-<img src="esc50.gif" alt="ESC-50 clip preview" title="ESC-50 clip preview" align="right" />
-
 The **ESC-50 dataset** is a labeled collection of 2000 environmental audio recordings suitable for benchmarking methods of environmental sound classification.
 
 The dataset consists of 5-second-long recordings organized into 50 semantical classes (with 40 examples per class) loosely arranged into 5 major categories:
@@ -31,3 +29,20 @@ The dataset consists of 5-second-long recordings organized into 50 semantical cl
 Clips in this dataset have been manually extracted from public field recordings gathered by the **[Freesound.org project](http://freesound.org/)**. The dataset has been prearranged into 5 folds for comparable cross-validation, making sure that fragments from the same original source file are contained in a single fold.
 
 A more thorough description of the dataset is available in the original [paper](http://karol.piczak.com/papers/Piczak2015-ESC-Dataset.pdf) with some supplementary materials on GitHub: **[ESC: Dataset for Environmental Sound Classification - paper replication data](https://github.com/karoldvl/paper-2015-esc-dataset)**.
+
+# Exploratory Data Analysis & preprocessing
+<a href="https://colab.research.google.com/github/adamsiemaszkiewicz/sound_classifier/blob/main/01_EDA-and-preprocessing.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+The first notebook imports the dataset, explores and visualizes the data and preprocesses the audio files for later usage by converting audio files into spectograms.
+
+# Classifier
+<a href="https://colab.research.google.com/github/adamsiemaszkiewicz/sound_classifier/blob/main/02_Classifier.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+This notebook will use the audio clips converted into spectogram images in the previous step to build a classification model using PyTorch fast.ai. For experimentation purposes I take two different approaches to the task.
+
+1. Firstly, I train the CNN on the whole dataset with a random training/validation split.
+2. Secondly, I train four small CNNs using predefined cross-validation splits and then ensemble them into one predictor.
+
+Then I evaluate and check the performance of both of them using the taken-away and never-seen-before test set. It turns out that training number of smaller models based on the cross-validation folds performs better than one full-sized model.
+
+81.30%
